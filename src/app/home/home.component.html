@@ -5,4 +5,8 @@
 </form> 
 
     <p>search for : {{ search.value }}</p>
-   
+    <ul>
+      <li *ngFor="let l of message">
+        {{ l }}
+      </li>
+    </ul>

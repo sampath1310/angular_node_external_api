@@ -8,20 +8,20 @@ import { HomeComponent } from './home/home.component';
 import { MydirDirective } from './mydir.directive';
 import { HttpClientModule } from '@angular/common/http';
 import {FormsModule} from '@angular/forms'
+import {HttpService} from '../app/http.service'
 @NgModule({
   declarations: [
     AppComponent,
     CapsPipe,
     HomeComponent,
-    MydirDirective
-    
+    MydirDirective,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [HttpService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

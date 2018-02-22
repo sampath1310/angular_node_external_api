@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
-//var request = require('request');
+var request = require('request');
 var resToAng;
 // Get our API routes
 const api = require('./server/routes/api');
@@ -19,44 +19,38 @@ app.use(express.static(path.join(__dirname, 'dist')));
 // Set our api routes
 app.use('/api', api);
 
-const request = require('request-promise');
 
 
-// making external api call 
-app.get('/test', (req, res) => {
-
-  // req.pipe(request.get("http://codeforgeek.com",function(error,response,body){
-  //       if(error){
-  //             console.log(error);
-  //       }else{
-  //             console.log(response);
-  //     }
-  //   }))
-
-//  var data="";
- 
-const options = {
-  method: 'GET',
-  uri: 'https://api.got.show/api/ages/',
- // body: req.body,
- // json: true,
- // headers: {
-  //    'Content-Type': 'application/json',
- //     'Authorization': 'bwejjr33333333333'
- // }
-};
-
-request(options).then(function (response){
-res.status(200).json(response);
-})
-.catch(function (err) {
-console.log(err);
-});// .then(data =>{
-//   res.send(data);
+// // making external api call 
+// app.get('/test', (req, res) => {
+//  var data='';
+// const options = {
+//   method: 'GET',
+//   uri: 'https://dog.ceo/api/breeds/list',
+//  };
+// //  http.get(options,resp=>{
+// //    data+=resp;
+// // });
+// http.get('https://dog.ceo/api/breeds/list',resp=>{
+//   console.log(resp);
 // });
-//res.status(200).json(somereq);
-});
+//  res.status(200).json('data');
 
+// });
+app.get('/test', (req, resp)=>{
+  var body='';
+  http.get('http://dog.ceo/api/breeds/list', function(res) {
+    var body = '';
+    res.on('data', function(chunk) {
+      body += chunk;
+    });
+    res.on('end', function() {
+      resp.json(body);
+    });
+  }).on('error', function(e) {
+    console.log("Got error: " + e.message);
+  }); 
+});
 
 
 // Catch all other routes and return the index file
