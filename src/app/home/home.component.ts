@@ -21,19 +21,26 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     //this.service.getData().subscribe(val => this.list=val);
-    this.nodecall().subscribe(val => {
-            this.obj=JSON.parse(val.toString());
-      });
+    // this.nodecall().subscribe(val => {
+    //         this.obj=JSON.parse(val.toString());
+    //   });
   }
 
    onSubmit(f: NgForm) {
-        this.list=new  List(this.obj['status'],this.obj['message'])
-        this.message=this.getBreeds(this.list);
+        this.scrap();
+        // this.list=new  List(this.obj['status'],this.obj['message'])
+        // this.message=this.getBreeds(this.list);
 
   }
 
   nodecall():Observable<Object>{
     return this.http.get('http://localhost:3000/test')
+  }
+
+  scrap():void{
+    this.http.get('http://localhost:3000/scrape').subscribe(val=>{
+      console.log(val);
+    });
   }
 
   getBreeds(List):Array<string>{

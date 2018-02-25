@@ -3,6 +3,8 @@ const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 var request = require('request');
+var cheerio = require('cheerio');
+var fs = require('fs');
 var resToAng;
 // Get our API routes
 const api = require('./server/routes/api');
@@ -50,6 +52,32 @@ app.get('/test', (req, resp)=>{
   }).on('error', function(e) {
     console.log("Got error: " + e.message);
   }); 
+});
+
+app.get('/scrape', function(req, res){
+
+  url = 'https://www.trendhunter.com/trends/linksys-wrt32xb';
+
+  request(url, function(error, response, html){
+      if(!error){
+          var $ = cheerio.load(html);
+          console.log(html);
+      var title, release, rating;
+      var json = { title : ""};
+  
+      $('.articleText').filter(function(){
+          var data = $(this);
+          title = data.text();            
+  
+          json.title = title;
+      })
+  
+      
+  }
+  
+    res.send(json);
+  
+      }) ;
 });
 
 
